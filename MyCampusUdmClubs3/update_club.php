@@ -124,7 +124,7 @@ include "includes/header.php";
         Enregistrer les modifications
       </button>
 
-      <a class="bouton bouton-secondaire" href="index.php">
+      <a class="bouton bouton-secondaire" href="clubs.php">
         Retour
       </a>
     </div>

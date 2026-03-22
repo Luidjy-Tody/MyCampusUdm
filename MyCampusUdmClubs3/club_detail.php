@@ -6,7 +6,7 @@ require "config/database.php";
 
 if (!isset($_GET["id"]) || empty($_GET["id"]))
 {
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -29,43 +29,43 @@ $club = $clubStatement->fetch(PDO::FETCH_ASSOC);
 
 if (!$club)
 {
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
+
+$estResponsableDuClub = (
+  isset($_SESSION["id"]) &&
+  isset($_SESSION["role"]) &&
+  $_SESSION["role"] === "responsable" &&
+  (int) $club["responsable_id"] === (int) $_SESSION["id"]
+);
+
 $estMembre = false;
-$estResponsableDuClub = false;
-$peutVoirMembres = false;
-$membres = [];
 
-if (isset($_SESSION["id"]) && isset($_SESSION["role"]))
+if (
+  isset($_SESSION["id"]) &&
+  isset($_SESSION["role"]) &&
+  in_array($_SESSION["role"], ["etudiant", "responsable"], true)
+)
 {
-  $estResponsableDuClub = (
-    $_SESSION["role"] === "responsable" &&
-    (int) $club["responsable_id"] === (int) $_SESSION["id"]
-  );
+  $membreQuery = "
+    SELECT id
+    FROM membres_club
+    WHERE utilisateur_id = :utilisateur_id
+      AND club_id = :club_id
+  ";
 
-  if (in_array($_SESSION["role"], ["etudiant", "responsable"], true))
+  $membreStatement = $pdo->prepare($membreQuery);
+
+  $membreStatement->execute([
+    "utilisateur_id" => $_SESSION["id"],
+    "club_id"        => $id
+  ]) or die(print_r($pdo->errorInfo()));
+
+  if ($membreStatement->fetch())
   {
-    $membreQuery = "
-      SELECT id
-      FROM membres_club
-      WHERE utilisateur_id = :utilisateur_id
-        AND club_id = :club_id" ;
-
-    $membreStatement = $pdo->prepare($membreQuery);
-
-    $membreStatement->execute([
-      "utilisateur_id" => $_SESSION["id"],
-      "club_id"        => $id
-    ]) or die(print_r($pdo->errorInfo()));
-
-    if ($membreStatement->fetch())
-    {
-      $estMembre = true;
-    }
+    $estMembre = true;
   }
-
-  $peutVoirMembres = $estResponsableDuClub || $estMembre;
 }
 
 $demandeEnvoyee = false;
@@ -96,6 +96,9 @@ if (
     $demandeEnvoyee = true;
   }
 }
+
+$peutVoirMembres = $estMembre || $estResponsableDuClub;
+$membres = [];
 
 if ($peutVoirMembres)
 {
@@ -151,7 +154,9 @@ include "includes/header.php";
       <span class="badge badge-annule">INACTIF</span>
     <?php endif; ?>
 
-    <?php if ($estResponsableDuClub) : ?>
+    <?php if (
+       $estResponsableDuClub 
+    ) : ?>
       <span class="badge badge-actif">MON CLUB</span>
     <?php endif; ?>
 
@@ -189,7 +194,10 @@ include "includes/header.php";
 
     <?php elseif (
       in_array($_SESSION["role"], ["etudiant", "responsable"], true) &&
-      !$estResponsableDuClub
+      !(
+        $_SESSION["role"] === "responsable" &&
+        (int) $club["responsable_id"] === (int) $_SESSION["id"]
+      )
     ) : ?>
 
       <?php if ($estMembre) : ?>
@@ -216,7 +224,10 @@ include "includes/header.php";
 
       <?php endif; ?>
 
-    <?php elseif ($estResponsableDuClub) : ?>
+    <?php elseif (
+      $_SESSION["role"] === "responsable" &&
+      (int) $club["responsable_id"] === (int) $_SESSION["id"]
+    ) : ?>
 
       <a class="bouton" href="gestion_club.php">
         Gérer ce club
@@ -238,16 +249,10 @@ include "includes/header.php";
 
     <h2>Membres</h2>
 
-    <?php if (!isset($_SESSION["id"])) : ?>
+    <?php if (!$peutVoirMembres) : ?>
 
       <p class="texte-gris">
-        Connectez-vous pour voir les membres de ce club.
-      </p>
-
-    <?php elseif (!$peutVoirMembres) : ?>
-
-      <p class="texte-gris">
-        Vous ne pouvez voir que les membres du club auquel vous appartenez.
+        Connectez-vous et rejoignez ce club pour consulter la liste des membres.
       </p>
 
     <?php elseif (empty($membres)) : ?>

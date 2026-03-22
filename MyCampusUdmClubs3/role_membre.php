@@ -22,7 +22,7 @@ if (
 $membre_id = (int) $_GET["id"];
 $club_id   = (int) $_GET["club_id"];
 
-/* vérifier que le club appartient au responsable */
+# vérifier que le club appartient au responsable 
 $clubQuery = "
   SELECT *
   FROM clubs
@@ -45,7 +45,7 @@ if (!$club)
   exit();
 }
 
-/* récupérer le membre */
+#récupérer le membre 
 $membreQuery = "
   SELECT mc.*, u.nom, u.prenom, u.email
   FROM membres_club mc

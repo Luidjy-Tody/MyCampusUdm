@@ -17,7 +17,7 @@ require "config/database.php";
 if (!isset($_GET["id"]) || empty($_GET["id"]))
 {
   $_SESSION["demande_error"] = "Club introuvable.";
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -41,7 +41,7 @@ $club = $clubStatement->fetch(PDO::FETCH_ASSOC);
 if (!$club)
 {
   $_SESSION["demande_error"] = "Club introuvable.";
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -51,7 +51,7 @@ if (
 )
 {
   $_SESSION["demande_error"] = "Vous êtes déjà responsable de ce club.";
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -72,7 +72,7 @@ $checkMembreStatement->execute([
 if ($checkMembreStatement->fetch())
 {
   $_SESSION["demande_error"] = "Vous êtes déjà membre de ce club.";
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -94,7 +94,7 @@ $checkDemandeStatement->execute([
 if ($checkDemandeStatement->fetch())
 {
   $_SESSION["demande_error"] = "Une demande est déjà en attente pour ce club.";
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -115,5 +115,5 @@ $insertStatement->execute([
 
 $_SESSION["demande_success"] = "Votre demande d’adhésion a été envoyée.";
 
-header("Location: index.php");
+header("Location: clubs.php");
 exit();

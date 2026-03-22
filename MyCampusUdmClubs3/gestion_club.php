@@ -202,6 +202,10 @@ include "includes/header.php";
                   Membres
                 </a>
 
+                <a class="bouton petit" href="gestion_evenements.php?club_id=<?= htmlspecialchars($club["id"]) ?>">
+                  Événements
+                </a>
+
                 <a class="bouton bouton-secondaire petit" href="delete_club.php?id=<?= htmlspecialchars($club["id"]) ?>">
                   Supprimer
                 </a>

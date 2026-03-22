@@ -17,7 +17,7 @@ require "config/database.php";
 if (!isset($_GET["id"]) || empty($_GET["id"]))
 {
   $_SESSION["demande_error"] = "Club introuvable.";
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -44,7 +44,7 @@ $demande = $checkStatement->fetch(PDO::FETCH_ASSOC);
 if (!$demande)
 {
   $_SESSION["demande_error"] = "Aucune demande en attente à annuler.";
-  header("Location: index.php");
+  header("Location: clubs.php");
   exit();
 }
 
@@ -68,5 +68,5 @@ else
   $_SESSION["demande_error"] = "La demande n’a pas pu être annulée.";
 }
 
-header("Location: index.php");
+header("Location: clubs.php");
 exit();

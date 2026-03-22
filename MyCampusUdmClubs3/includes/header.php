@@ -35,7 +35,7 @@ if (session_status() === PHP_SESSION_NONE)
 
     <div class="conteneur nav">
 
-        <a class="logo" href="index.php">
+        <a class="logo" href="clubs.php">
 
             <img src="images/logo.png" alt="Logo MyCampus">
 
@@ -45,7 +45,7 @@ if (session_status() === PHP_SESSION_NONE)
 
         <nav class="menu">
 
-            <a href="index.php">
+            <a href="clubs.php">
                 Clubs
             </a>
 
@@ -65,6 +65,10 @@ if (session_status() === PHP_SESSION_NONE)
 
                 <a href="gestion_club.php">
                     Mes clubs
+                </a>
+
+                <a href="gestion_evenements.php">
+                    Événements
                 </a>
 
             <?php endif; ?>
