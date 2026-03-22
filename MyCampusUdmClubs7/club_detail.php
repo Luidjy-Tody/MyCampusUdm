@@ -2,6 +2,10 @@
 
 session_start();
 
+$estConnecte = isset($_SESSION["id"]);
+$estAdmin = $estConnecte && isset($_SESSION["role"]) && $_SESSION["role"] === "admin";
+$utilisateurId = $estConnecte ? (int) $_SESSION["id"] : 0;
+
 require "config/database.php";
 
 if (!isset($_GET["id"]) || empty($_GET["id"]))

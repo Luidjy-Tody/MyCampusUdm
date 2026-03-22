@@ -85,7 +85,7 @@ include "includes/header.php";
 
 <section class="entete-page bonjour-zone">
   <h1 class="bonjour-anime">
-    Bonjour <?= htmlspecialchars($_SESSION["prenom"] . " " . $_SESSION["nom"]) ?> 👋
+    Bonjour <?= htmlspecialchars($_SESSION["prenom"] . " " . $_SESSION["nom"]) ?>
   </h1>
 
   <p class="texte-gris">

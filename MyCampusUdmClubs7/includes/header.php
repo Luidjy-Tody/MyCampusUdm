@@ -45,9 +45,8 @@ $tableauHref = $estAdmin ? "admin.php" : "dashboard.php";
 
         <a class="logo" href="<?= $logoHref ?>">
 
-            <img src="images/logo.png" alt="Logo MyCampus">
+            <img src="images/footer-logo-udm.png" alt="Logo MyCampus">
 
-            <span>MyCampusUDM</span>
 
         </a>
 
@@ -57,15 +56,6 @@ $tableauHref = $estAdmin ? "admin.php" : "dashboard.php";
 
                 <a href="admin.php">
                     Administration
-                </a>
-
-                <a href="admin.php">
-                    Clubs
-                </a>
-
-                <a href="admin.php">
-                    Tableau de bord
-                </a>
 
             <?php else : ?>
 

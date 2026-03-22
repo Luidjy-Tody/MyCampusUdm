@@ -44,7 +44,7 @@
 
     <div class="footer-bottom">
       <small class="footer-note">© <span data-footer-year><?= date("Y") ?></span> MyCampusUDM — UdM</small>
-      <small class="footer-note">Main du site conservé avec le nouveau style visuel et le nouveau footer.</small>
+      <small class="footer-note">Mentions légales • Luidjy</small>
     </div>
 
   </footer>
