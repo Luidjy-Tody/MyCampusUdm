@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require_once "includes/lang.php";
 require "config/database.php";
 
 if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin")
@@ -9,10 +10,10 @@ if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin")
   exit();
 }
 
-$titrePage = "Calendrier";
+$titrePage = t("calendar");
 
-$clubFiltre  = isset($_GET["club_id"]) ? (int) $_GET["club_id"] : 0;
-$dateFiltre  = trim($_GET["date_event"] ?? "");
+$clubFiltre   = isset($_GET["club_id"]) ? (int) $_GET["club_id"] : 0;
+$dateFiltre   = trim($_GET["date_event"] ?? "");
 $searchFiltre = trim($_GET["q"] ?? "");
 
 $clubsQuery = "
@@ -83,35 +84,35 @@ include "includes/header.php";
 ?>
 
 <section class="entete-page">
-  <h1>Calendrier des clubs</h1>
+  <h1><?= t("clubs_calendar") ?></h1>
   <p class="texte-gris">
-    Vue globale des événements publiés par les clubs actifs.
+    <?= t("global_events_view") ?>
   </p>
 </section>
 
 <section class="grille-3">
   <article class="carte">
-    <h2>Total événements</h2>
+    <h2><?= t("total_events") ?></h2>
     <p><strong><?= (int) ($stats["total_evenements"] ?? 0) ?></strong></p>
   </article>
 
   <article class="carte">
-    <h2>Événements actifs</h2>
+    <h2><?= t("active_events") ?></h2>
     <p><strong><?= (int) ($stats["total_actifs"] ?? 0) ?></strong></p>
   </article>
 
   <article class="carte">
-    <h2>Événements annulés</h2>
+    <h2><?= t("cancelled_events") ?></h2>
     <p><strong><?= (int) ($stats["total_annules"] ?? 0) ?></strong></p>
   </article>
 </section>
 
 <section class="carte">
-  <h2>Filtres</h2>
+  <h2><?= t("filters") ?></h2>
 
   <form method="get" action="calendrier.php" class="barre-filtres">
     <select class="champ" name="club_id">
-      <option value="0">Tous les clubs</option>
+      <option value="0"><?= t("all_clubs") ?></option>
       <?php foreach ($clubsFiltres as $clubFiltreOption) : ?>
         <option
           value="<?= (int) $clubFiltreOption["id"] ?>"
@@ -128,23 +129,23 @@ include "includes/header.php";
       class="champ"
       type="search"
       name="q"
-      placeholder="Rechercher un événement..."
+      placeholder="<?= t("search_event_placeholder") ?>"
       value="<?= htmlspecialchars($searchFiltre) ?>"
     >
 
-    <button class="bouton" type="submit">Filtrer</button>
-    <a class="bouton bouton-secondaire" href="calendrier.php">Réinitialiser</a>
+    <button class="bouton" type="submit"><?= t("filter") ?></button>
+    <a class="bouton bouton-secondaire" href="calendrier.php"><?= t("reset") ?></a>
   </form>
 </section>
 
 <section class="carte">
 
-  <h2>Événements</h2>
+  <h2><?= t("events_list") ?></h2>
 
   <?php if (empty($evenements)) : ?>
 
     <p class="texte-gris">
-      Aucun événement disponible avec les filtres choisis.
+      <?= t("no_event_with_filters") ?>
     </p>
 
   <?php else : ?>
@@ -152,11 +153,11 @@ include "includes/header.php";
     <table class="table">
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Événement</th>
-          <th>Club</th>
-          <th>Lieu</th>
-          <th>Statut</th>
+          <th><?= t("date") ?></th>
+          <th><?= t("event") ?></th>
+          <th><?= t("club") ?></th>
+          <th><?= t("location") ?></th>
+          <th><?= t("status") ?></th>
         </tr>
       </thead>
       <tbody>
@@ -173,12 +174,12 @@ include "includes/header.php";
               <?php endif; ?>
             </td>
             <td><?= htmlspecialchars($evenement["nom_club"]) ?></td>
-            <td><?= htmlspecialchars($evenement["lieu"] ?: "Non précisé") ?></td>
+            <td><?= htmlspecialchars($evenement["lieu"] ?: t("not_specified")) ?></td>
             <td>
               <?php if ($evenement["statut"] === "actif") : ?>
-                <span class="badge badge-actif">ACTIF</span>
+                <span class="badge badge-actif"><?= t("active") ?></span>
               <?php else : ?>
-                <span class="badge badge-annule">ANNULÉ</span>
+                <span class="badge badge-annule"><?= t("cancelled") ?></span>
               <?php endif; ?>
             </td>
           </tr>

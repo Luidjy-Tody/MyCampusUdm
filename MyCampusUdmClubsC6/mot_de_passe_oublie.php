@@ -1,7 +1,10 @@
 <?php
 session_start();
 
-$titrePage = "Mot de passe oublié";
+require_once "includes/lang.php";
+
+
+$titrePage = t("forgot_password");
 $cssPage   = "auth.css";
 $bodyClass = "page-auth";
 
@@ -19,7 +22,7 @@ include "includes/header.php";
     <div class="form-box active">
 
       <form method="post" action="traitement_mot_de_passe_oublie.php">
-        <h2>Mot de passe oublié</h2>
+        <h2><?= t("forgot_password") ?></h2>
 
         <?php if (!empty($message_reset)) : ?>
           <p class="success-message"><?= htmlspecialchars($message_reset) ?></p>
@@ -29,12 +32,12 @@ include "includes/header.php";
           <p class="error-message"><?= htmlspecialchars($error_reset) ?></p>
         <?php endif; ?>
 
-        <input type="email" name="email" placeholder="Entrez votre email" required>
+        <input type="email" name="email" placeholder="<?= t("email") ?>" required>
 
-        <button type="submit">Envoyer le code</button>
+        <button type="submit"><?= t("send_code") ?></button>
 
         <p style="margin-top:12px;">
-          <a href="connexion.php">Retour à la connexion</a>
+          <a href="connexion.php"><?= t("back_to_login") ?></a>
         </p>
       </form>
 

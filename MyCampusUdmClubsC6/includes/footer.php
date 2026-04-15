@@ -2,6 +2,9 @@
 
   <!-- Section Newsletter -->
 <?php
+
+require_once "includes/lang.php";
+
 $pageActuelle = basename($_SERVER["PHP_SELF"]);
 $masquerNewsletter = in_array($pageActuelle, [
     "connexion.php",
@@ -22,12 +25,12 @@ $masquerNewsletter = in_array($pageActuelle, [
 <section class="conteneur">
     <div class="newsletter-section">
       <i class="fas fa-envelope" style="font-size:2rem;margin-bottom:0.5rem;opacity:0.9;"></i>
-      <h2>Restez informé des clubs &amp; événements !</h2>
-      <p>Abonnez-vous à la newsletter MyCampusUDM et ne manquez plus aucune activité.</p>
+      <h2><?= t("stay_informed") ?></h2>
+      <p><?= t("newsletter_text") ?></p>
       <div class="newsletter-form">
-        <input type="email" id="newsletter-email" class="newsletter-input" placeholder="Votre adresse email...">
+        <input type="email" id="newsletter-email" class="newsletter-input" placeholder="<?= t("newsletter_email_placeholder") ?>">
         <button class="newsletter-btn" onclick="abonnerNewsletter()">
-          <i class="fas fa-paper-plane"></i> S'abonner
+          <i class="fas fa-paper-plane"></i> <?= t("subscribe") ?>
         </button>
       </div>
       <p class="newsletter-msg" id="newsletter-msg"></p>
@@ -46,18 +49,18 @@ $masquerNewsletter = in_array($pageActuelle, [
       </div>
 
       <div class="footer-column">
-        <h3>Navigation</h3>
-        <a href="clubs.php">Clubs</a>
-        <a href="calendrier.php">Calendrier</a>
+        <h3><?= t("navigation") ?></h3>
+        <a href="clubs.php"><?= t("clubs") ?></a>
+        <a href="calendrier.php"><?= t("calendar") ?></a>
         <?php if (isset($_SESSION["id"])) : ?>
-          <a href="<?= (isset($_SESSION["role"]) && $_SESSION["role"] === "admin") ? "admin.php" : "dashboard.php" ?>">Tableau de bord</a>
+          <a href="<?= (isset($_SESSION["role"]) && $_SESSION["role"] === "admin") ? "admin.php" : "dashboard.php" ?>"><?= t("dashboard") ?></a>
         <?php else : ?>
-          <a href="connexion.php">Connexion</a>
+          <a href="connexion.php"><?= t("login") ?></a>
         <?php endif; ?>
       </div>
 
       <div class="footer-column">
-        <h3>Partenaire académique</h3>
+        <h3><?= t("academic_partner") ?></h3>
         <a href="https://www.unilim.fr/" target="_blank" rel="noopener noreferrer">
           <img src="images/partner-limoges.png" class="partner-logo" alt="Université de Limoges">
         </a>
@@ -65,7 +68,7 @@ $masquerNewsletter = in_array($pageActuelle, [
 
       <div class="footer-column">
         <h3>MyCampusUDM</h3>
-        <p>Plateforme de gestion des clubs étudiants de l’Université des Mascareignes.</p>
+        <p><?= t("platform_description") ?></p>
         <div class="social-icons">
           <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -79,7 +82,7 @@ $masquerNewsletter = in_array($pageActuelle, [
 
     <div class="footer-bottom">
       <small class="footer-note">© <span data-footer-year><?= date("Y") ?></span> MyCampusUDM — UdM</small>
-      <small class="footer-note">Mentions légales • Luidjy</small>
+      <small class="footer-note"><?= t("legal_notice") ?> • Luidjy</small>
     </div>
 
   </footer>

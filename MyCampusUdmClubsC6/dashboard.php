@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require_once "includes/lang.php";
 
 if (!isset($_SESSION["id"]))
 {
@@ -17,7 +18,7 @@ if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin")
 require "config/database.php";
 require_once "includes/app_helpers.php";
 
-$titrePage = "Tableau de bord";
+$titrePage = t("dashboard");
 $userId = (int) $_SESSION["id"];
 
 $statsStatement = $pdo->prepare("
@@ -86,42 +87,42 @@ include "includes/header.php";
 
 <section class="entete-page bonjour-zone">
   <h1 class="bonjour-anime">
-    Bonjour <?= htmlspecialchars(currentUserDisplayName()) ?>
+    <?= t("hello") ?> <?= htmlspecialchars(currentUserDisplayName()) ?>
   </h1>
 
   <p class="texte-gris">
-    Bienvenue sur votre tableau de bord MyCampusUDM.
+    <?= t("welcome_dashboard") ?>
   </p>
 </section>
 
 <section class="grille-3">
   <article class="carte">
-    <h2>Mes clubs</h2>
+    <h2><?= t("my_clubs_count") ?></h2>
     <p><strong><?= (int) ($stats["total_clubs"] ?? 0) ?></strong></p>
   </article>
   <article class="carte">
-    <h2>Mes demandes en attente</h2>
+    <h2><?= t("my_pending_requests") ?></h2>
     <p><strong><?= (int) ($stats["demandes_attente"] ?? 0) ?></strong></p>
   </article>
   <article class="carte">
-    <h2>Événements à venir</h2>
+    <h2><?= t("upcoming_events") ?></h2>
     <p><strong><?= (int) ($stats["evenements_a_venir"] ?? 0) ?></strong></p>
   </article>
 </section>
 
 <section class="carte">
-  <h2>Mes clubs</h2>
+  <h2><?= t("my_clubs_count") ?></h2>
 
   <?php if (empty($mesClubs)) : ?>
-    <p class="texte-gris">Aucun club pour le moment.</p>
+    <p class="texte-gris"><?= t("no_club_yet") ?></p>
   <?php else : ?>
     <table class="table">
       <thead>
         <tr>
-          <th>Club</th>
-          <th>Rôle</th>
-          <th>Date entrée</th>
-          <th>Action</th>
+          <th><?= t("club") ?></th>
+          <th><?= t("role") ?></th>
+          <th><?= t("join_date") ?></th>
+          <th><?= t("action") ?></th>
         </tr>
       </thead>
       <tbody>
@@ -129,9 +130,9 @@ include "includes/header.php";
           <?php $clubSupprime = !isset($club["statut_club"]) || $club["statut_club"] === "supprime"; ?>
           <tr>
             <td>
-              <strong><?= htmlspecialchars($club["nom_club"] ?? "Club supprimé") ?></strong>
+              <strong><?= htmlspecialchars($club["nom_club"] ?? t("deleted_club")) ?></strong>
               <?php if ($clubSupprime) : ?>
-                <br><span class="texte-gris petit">Statut : Club supprimé</span>
+                <br><span class="texte-gris petit"><?= t("status_deleted_club") ?></span>
               <?php elseif (!empty($club["description"])) : ?>
                 <br><span class="texte-gris petit"><?= htmlspecialchars($club["description"]) ?></span>
               <?php endif; ?>
@@ -140,9 +141,9 @@ include "includes/header.php";
             <td><?= htmlspecialchars($club["date_entree"]) ?></td>
             <td>
               <?php if ($clubSupprime) : ?>
-                <span class="texte-gris petit">Club supprimé</span>
+                <span class="texte-gris petit"><?= t("deleted_club") ?></span>
               <?php else : ?>
-                <a class="bouton petit" href="club_detail.php?id=<?= (int) $club["id"] ?>">Voir</a>
+                <a class="bouton petit" href="club_detail.php?id=<?= (int) $club["id"] ?>"><?= t("view") ?></a>
               <?php endif; ?>
             </td>
           </tr>
@@ -153,18 +154,18 @@ include "includes/header.php";
 </section>
 
 <section class="carte">
-  <h2>Mes demandes</h2>
+  <h2><?= t("my_requests") ?></h2>
 
   <?php if (empty($mesDemandes)) : ?>
-    <p class="texte-gris">Aucune demande pour le moment.</p>
+    <p class="texte-gris"><?= t("no_request_yet") ?></p>
   <?php else : ?>
     <table class="table">
       <thead>
         <tr>
-          <th>Club</th>
-          <th>Statut</th>
-          <th>Date demande</th>
-          <th>Action</th>
+          <th><?= t("club") ?></th>
+          <th><?= t("status") ?></th>
+          <th><?= t("request_date") ?></th>
+          <th><?= t("action") ?></th>
         </tr>
       </thead>
       <tbody>
@@ -178,12 +179,12 @@ include "includes/header.php";
                 <a
                   class="bouton bouton-secondaire petit"
                   href="annuler_demande.php?id=<?= (int) $demande["club_id"] ?>"
-                  onclick="return confirm('Voulez-vous vraiment annuler cette demande ?');"
+                  onclick="return confirm('<?= t("cancel_request_confirm") ?>');"
                 >
-                  Annuler
+                  <?= t("cancel") ?>
                 </a>
               <?php else : ?>
-                <span class="texte-gris petit">Aucune action</span>
+                <span class="texte-gris petit"><?= t("no_action") ?></span>
               <?php endif; ?>
             </td>
           </tr>
@@ -194,18 +195,18 @@ include "includes/header.php";
 </section>
 
 <section class="carte">
-  <h2>Événements à venir</h2>
+  <h2><?= t("upcoming_events") ?></h2>
 
   <?php if (empty($evenements)) : ?>
-    <p class="texte-gris">Aucun événement disponible.</p>
+    <p class="texte-gris"><?= t("no_event_available") ?></p>
   <?php else : ?>
     <table class="table">
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Événement</th>
-          <th>Club</th>
-          <th>Lieu</th>
+          <th><?= t("date") ?></th>
+          <th><?= t("event") ?></th>
+          <th><?= t("club") ?></th>
+          <th><?= t("location") ?></th>
         </tr>
       </thead>
       <tbody>
@@ -219,7 +220,7 @@ include "includes/header.php";
               <?php endif; ?>
             </td>
             <td><?= htmlspecialchars($evenement["nom_club"]) ?></td>
-            <td><?= htmlspecialchars($evenement["lieu"] ?: "Non précisé") ?></td>
+            <td><?= htmlspecialchars($evenement["lieu"] ?: t("not_specified")) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>

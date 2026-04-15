@@ -1,16 +1,17 @@
 <?php
 
 session_start();
+require_once "includes/lang.php";
 
-$titrePage = "Connexion";
+$titrePage = t("login");
 $cssPage   = "auth.css";
 $bodyClass = "page-auth";
 
-$login_error        = $_SESSION["login_error"] ?? "";
-$register_error     = $_SESSION["register_error"] ?? "";
-$success            = $_SESSION["success"] ?? "";
-$active_form        = $_SESSION["active_form"] ?? ($_GET["form"] ?? "login");
-$success_reset      = $_SESSION["success_reset"] ?? "";
+$login_error    = $_SESSION["login_error"] ?? "";
+$register_error = $_SESSION["register_error"] ?? "";
+$success        = $_SESSION["success"] ?? "";
+$active_form    = $_SESSION["active_form"] ?? ($_GET["form"] ?? "login");
+$success_reset  = $_SESSION["success_reset"] ?? "";
 
 unset($_SESSION["login_error"]);
 unset($_SESSION["register_error"]);
@@ -30,7 +31,7 @@ include "includes/header.php";
 
       <form method="post" action="auth.php">
 
-        <h2>Login</h2>
+        <h2><?= t("login") ?></h2>
 
         <?php if (!empty($login_error)) : ?>
           <p class="error-message"><?= htmlspecialchars($login_error) ?></p>
@@ -44,19 +45,19 @@ include "includes/header.php";
           <p class="success-message"><?= htmlspecialchars($success_reset) ?></p>
         <?php endif; ?>
 
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="email" name="email" placeholder="<?= t("email") ?>" required>
 
-        <input type="password" name="motdepasse" placeholder="Password" required>
+        <input type="password" name="motdepasse" placeholder="<?= t("password") ?>" required>
 
-        <button type="submit" name="login">Login</button>
+        <button type="submit" name="login"><?= t("login") ?></button>
 
         <p style="margin-top:10px;">
-          <a href="mot_de_passe_oublie.php">Mot de passe oublié ?</a>
+          <a href="mot_de_passe_oublie.php"><?= t("forgot_password") ?> ?</a>
         </p>
 
         <p>
-          Don't have an account ?
-          <a href="#" onclick="showForm('register-form'); return false;">Register</a>
+          <?= t("dont_have_account") ?>
+          <a href="#" onclick="showForm('register-form'); return false;"><?= t("register") ?></a>
         </p>
 
       </form>
@@ -67,27 +68,29 @@ include "includes/header.php";
 
       <form method="post" action="auth.php">
 
-        <h2>Register</h2>
+        <h2><?= t("register") ?></h2>
 
         <?php if (!empty($register_error)) : ?>
           <p class="error-message"><?= htmlspecialchars($register_error) ?></p>
         <?php endif; ?>
 
-        <input type="text" name="nom" placeholder="Nom" required>
-        <input type="text" name="prenom" placeholder="Prénom" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="motdepasse" placeholder="Password" required>
+        <input type="text" name="nom" placeholder="<?= t("lastname") ?>" required>
+
+        <input type="text" name="prenom" placeholder="<?= t("firstname") ?>" required>
+
+        <input type="email" name="email" placeholder="<?= t("email") ?>" required>
+
+        <input type="password" name="motdepasse" placeholder="<?= t("password") ?>" required>
 
         <input type="hidden" name="role" value="etudiant">
-        <p class="texte-gris petit">
-          Le compte créé ici sera un compte étudiant. Les rôles responsable et admin sont attribués par l'administration.
-        </p>
 
-        <button type="submit" name="register">Register</button>
+        <p class="texte-gris petit"><?= t("student_account_info") ?></p>
+
+        <button type="submit" name="register"><?= t("register") ?></button>
 
         <p>
-          Already have an account ?
-          <a href="#" onclick="showForm('login-form'); return false;">Login</a>
+          <?= t("already_have_account") ?>
+          <a href="#" onclick="showForm('login-form'); return false;"><?= t("login") ?></a>
         </p>
 
       </form>

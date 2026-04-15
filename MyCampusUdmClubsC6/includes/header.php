@@ -7,6 +7,7 @@ if (session_status() === PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/app_helpers.php';
+require_once __DIR__ . '/lang.php';
 
 $estAdmin = isset($_SESSION["role"]) && $_SESSION["role"] === "admin";
 $logoHref = $estAdmin ? "admin.php" : "clubs.php";
@@ -20,10 +21,11 @@ $photoProfil = trim((string) currentUserPhotoPath());
 $photoExists = $photoProfil !== "" && $photoProfil !== "images/logo.png";
 $userInitials = currentUserInitials();
 $userEmail = trim((string) ($_SESSION["email"] ?? ""));
+$langActuelle = $_SESSION["lang"] ?? "fr";
 
 ?>
 <!doctype html>
-<html lang="fr">
+<html lang="<?= htmlspecialchars($langActuelle) ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,42 +62,42 @@ $userEmail = trim((string) ($_SESSION["email"] ?? ""));
             <?php if ($estAdmin) : ?>
                 <a href="admin.php" class="nav-link">
                     <i class="fas fa-shield-alt nav-icon"></i>
-                    <span>Administration</span>
+                    <span><?= t("administration") ?></span>
                 </a>
                 <a href="newsletter_admin.php" class="nav-link">
                     <i class="fas fa-envelope nav-icon"></i>
-                    <span>Newsletter</span>
+                    <span><?= t("newsletter") ?></span>
                 </a>
                 <a href="messagerie_admin.php" class="nav-link">
                     <i class="fas fa-comments nav-icon"></i>
-                    <span>Messagerie</span>
+                    <span><?= t("messaging") ?></span>
                 </a>
             <?php else : ?>
                 <a href="<?= $clubsHref ?>" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
-                    <span>Clubs</span>
+                    <span><?= t("clubs") ?></span>
                 </a>
 
                 <a href="<?= $calendrierHref ?>" class="nav-link">
                     <i class="fas fa-calendar-alt nav-icon"></i>
-                    <span>Calendrier</span>
+                    <span><?= t("calendar") ?></span>
                 </a>
 
                 <?php if (isset($_SESSION["id"])) : ?>
                     <a href="<?= $tableauHref ?>" class="nav-link">
                         <i class="fas fa-chart-bar nav-icon"></i>
-                        <span>Tableau de bord</span>
+                        <span><?= t("dashboard") ?></span>
                     </a>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "responsable") : ?>
                     <a href="gestion_club.php" class="nav-link">
                         <i class="fas fa-cog nav-icon"></i>
-                        <span>Mes clubs</span>
+                        <span><?= t("my_clubs") ?></span>
                     </a>
                     <a href="gestion_evenements.php" class="nav-link">
                         <i class="fas fa-star nav-icon"></i>
-                        <span>Événements</span>
+                        <span><?= t("events") ?></span>
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
@@ -103,13 +105,20 @@ $userEmail = trim((string) ($_SESSION["email"] ?? ""));
 
         <div class="actions">
 
-           <?php if (isset($_SESSION["id"]) && !$estAdmin &&
-            (!isset($_SESSION["role"]) || $_SESSION["role"] !== "responsable")) : ?>
+            <div class="lang-switch">
+                <a href="?lang=fr" class="<?= $langActuelle === 'fr' ? 'active' : '' ?>">FR</a>
+                <span>|</span>
+                <a href="?lang=en" class="<?= $langActuelle === 'en' ? 'active' : '' ?>">EN</a>
+            </div>
+
+            <?php if (isset($_SESSION["id"]) && !$estAdmin &&
+                (!isset($_SESSION["role"]) || $_SESSION["role"] !== "responsable")) : ?>
                 <a class="bouton bouton-secondaire" href="contact_admin.php">
-                <i class="fas fa-paper-plane" style="margin-right:5px;"></i>
-                Contact admin
-            </a>
+                    <i class="fas fa-paper-plane" style="margin-right:5px;"></i>
+                    <?= t("contact_admin") ?>
+                </a>
             <?php endif; ?>
+
             <?php if (isset($_SESSION["id"])) : ?>
                 <div class="profile-menu-wrap" id="profileMenuWrap">
                     <button
@@ -119,7 +128,7 @@ $userEmail = trim((string) ($_SESSION["email"] ?? ""));
                         aria-haspopup="true"
                         aria-expanded="false"
                         aria-controls="profileDropdown"
-                        title="Ouvrir le menu profil"
+                        title="<?= t("open_profile_menu") ?>"
                     >
                         <?php if ($photoExists) : ?>
                             <img src="<?= htmlspecialchars($photoProfil) ?>" alt="Photo de profil" class="profile-trigger-photo">
@@ -147,11 +156,11 @@ $userEmail = trim((string) ($_SESSION["email"] ?? ""));
                         <div class="profile-dropdown-actions">
                             <a href="<?= $profilHref ?>" class="profile-dropdown-link">
                                 <i class="fa-solid fa-user-pen"></i>
-                                <span>Modifier le profil</span>
+                                <span><?= t("edit_profile") ?></span>
                             </a>
                             <a href="deconnexion.php" class="profile-dropdown-link profile-dropdown-link-danger">
                                 <i class="fa-solid fa-right-from-bracket"></i>
-                                <span>Déconnexion</span>
+                                <span><?= t("logout") ?></span>
                             </a>
                         </div>
                     </div>
@@ -159,14 +168,14 @@ $userEmail = trim((string) ($_SESSION["email"] ?? ""));
             <?php else : ?>
                 <a class="bouton bouton-secondaire" href="connexion.php">
                     <i class="fas fa-sign-in-alt" style="margin-right:5px;"></i>
-                    Se connecter
+                    <?= t("login") ?>
                 </a>
             <?php endif; ?>
 
             <div class="header-partner">
                 <span class="partner-sep"></span>
-                <a href="https://www.unilim.fr/" target="_blank" rel="noopener noreferrer" title="Université de Limoges - Partenaire académique">
-                    <img src="images/partner-limoges.png" alt="Université de Limoges" class="header-partner-logo">
+                <a href="https://www.unilim.fr/" target="_blank" rel="noopener noreferrer" title="<?= t("partner_title") ?>">
+                    <img src="images/partner-limoges.png" alt="<?= t("academic_partner") ?>" class="header-partner-logo">
                 </a>
             </div>
         </div>
@@ -175,10 +184,10 @@ $userEmail = trim((string) ($_SESSION["email"] ?? ""));
 
 <main class="conteneur contenu udm-main">
 <?php if ($notificationCount > 0 && isset($_SESSION["id"])) : ?>
-    <a href="notifications.php" class="floating-notification-btn" title="Vous avez <?= $notificationCount ?> notification(s) non lue(s)">
+    <a href="notifications.php" class="floating-notification-btn" title="<?= t("notifications") ?> : <?= $notificationCount ?>">
         <i class="fa-regular fa-bell"></i>
         <span class="floating-notification-count"><?= $notificationCount ?></span>
-        <span class="floating-notification-label">Notifications</span>
+        <span class="floating-notification-label"><?= t("notifications") ?></span>
     </a>
 <?php endif; ?>
 

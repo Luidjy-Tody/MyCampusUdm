@@ -462,3 +462,27 @@ textarea.champ {
     position: static;
   }
 }
+
+
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.lang-switch a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+.lang-switch a.active {
+  color: #7494ec;
+}
+
+.lang-switch a:hover {
+  color: #7494ec;
+}

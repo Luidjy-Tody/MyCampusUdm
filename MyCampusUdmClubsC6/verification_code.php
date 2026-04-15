@@ -1,8 +1,10 @@
 <?php
 
 session_start();
+require_once "includes/lang.php";
 
-$titrePage = "Vérification du code";
+
+$titrePage = t("verification_code");
 $cssPage   = "auth.css";
 $bodyClass = "page-auth";
 
@@ -21,7 +23,7 @@ include "includes/header.php";
     <div class="form-box active">
 
       <form method="post" action="traitement_reset_password.php">
-        <h2>Vérification du code</h2>
+        <h2><?= t("verification_code") ?></h2>
 
         <?php if (!empty($message_code)) : ?>
           <p class="success-message"><?= htmlspecialchars($message_code) ?></p>
@@ -34,7 +36,7 @@ include "includes/header.php";
         <input
           type="email"
           name="email"
-          placeholder="Votre email"
+          placeholder="<?= t("email") ?>"
           value="<?= htmlspecialchars($reset_email) ?>"
           required
         >
@@ -42,7 +44,7 @@ include "includes/header.php";
         <input
           type="text"
           name="code"
-          placeholder="Code à 6 chiffres"
+          placeholder="<?= t("verification_code_placeholder") ?>"
           maxlength="6"
           required
         >
@@ -50,21 +52,21 @@ include "includes/header.php";
         <input
           type="password"
           name="motdepasse"
-          placeholder="Nouveau mot de passe"
+          placeholder="<?= t("new_password") ?>"
           required
         >
 
         <input
           type="password"
           name="confirm_motdepasse"
-          placeholder="Confirmer le mot de passe"
+          placeholder="<?= t("confirm_password") ?>"
           required
         >
 
-        <button type="submit">Valider</button>
+        <button type="submit"><?= t("validate") ?></button>
 
         <p style="margin-top:12px;">
-          <a href="connexion.php">Retour à la connexion</a>
+          <a href="connexion.php"><?= t("back_to_login") ?></a>
         </p>
       </form>
 

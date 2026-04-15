@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require_once "includes/lang.php";
 
 require "config/database.php";
 
@@ -10,7 +11,7 @@ if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin")
   exit();
 }
 
-$titrePage = "Clubs";
+$titrePage = t("clubs");
 
 $demande_success = $_SESSION["demande_success"] ?? "";
 $demande_error   = $_SESSION["demande_error"] ?? "";
@@ -93,9 +94,9 @@ include "includes/header.php";
 ?>
 
 <section class="entete-page">
-  <h1>Clubs étudiants</h1>
+  <h1><?= t("student_clubs") ?></h1>
   <p class="texte-gris">
-    Découvrez les clubs disponibles sur MyCampusUDM.
+    <?= t("discover_clubs") ?>
   </p>
 </section>
 
@@ -119,14 +120,14 @@ include "includes/header.php";
 
   <section class="carte">
 
-    <h2>Rejoindre un club</h2>
+    <h2><?= t("join_a_club") ?></h2>
 
     <p class="texte-gris">
-      Créez un compte pour rejoindre un club et participer aux événements étudiants.
+      <?= t("create_account_join") ?>
     </p>
 
     <div class="carte-actions">
-      <a class="bouton" href="connexion.php?form=register">S’inscrire</a>
+      <a class="bouton" href="connexion.php?form=register"><?= t("sign_up") ?></a>
     </div>
 
   </section>
@@ -139,10 +140,10 @@ include "includes/header.php";
 
     <article class="carte">
 
-      <h2>Liste des clubs</h2>
+      <h2><?= t("club_list") ?></h2>
 
       <p class="texte-gris">
-        Aucun club affiché pour le moment.
+        <?= t("no_club_displayed") ?>
       </p>
 
     </article>
@@ -159,11 +160,11 @@ include "includes/header.php";
           <div class="carte-actions">
 
             <?php if ($club["statut"] === "actif") : ?>
-              <span class="badge badge-actif">ACTIF</span>
+              <span class="badge badge-actif"><?= t("active") ?></span>
             <?php elseif ($club["statut"] === "attente") : ?>
-              <span class="badge badge-attente">EN ATTENTE</span>
+              <span class="badge badge-attente"><?= t("pending") ?></span>
             <?php else : ?>
-              <span class="badge badge-annule">INACTIF</span>
+              <span class="badge badge-annule"><?= t("inactive") ?></span>
             <?php endif; ?>
 
             <?php if (
@@ -172,7 +173,7 @@ include "includes/header.php";
               $_SESSION["role"] === "responsable" &&
               (int) $club["responsable_id"] === (int) $_SESSION["id"]
             ) : ?>
-              <span class="badge badge-actif">MON CLUB</span>
+              <span class="badge badge-actif"><?= t("my_club") ?></span>
             <?php endif; ?>
 
           </div>
@@ -183,11 +184,11 @@ include "includes/header.php";
         </p>
 
         <?php if (!empty($club["categorie"])) : ?>
-        <p class="petit texte-gris">Catégorie : <?= htmlspecialchars($club["categorie"]) ?></p>
+        <p class="petit texte-gris"><?= t("category") ?> : <?= htmlspecialchars($club["categorie"]) ?></p>
         <?php endif; ?>
 
         <p class="petit texte-gris">
-          Responsable :
+          <?= t("manager") ?> :
           <?php
             if (!empty($club["prenom"]) || !empty($club["nom"]))
             {
@@ -195,25 +196,25 @@ include "includes/header.php";
             }
             else
             {
-              echo "Non attribué";
+              echo t("not_assigned");
             }
           ?>
         </p>
 
         <p class="petit texte-gris">
-          Date de création : <?= htmlspecialchars($club["date_creation"] ?? "") ?>
+          <?= t("creation_date") ?> : <?= htmlspecialchars($club["date_creation"] ?? "") ?>
         </p>
 
         <div class="carte-actions">
 
           <a class="bouton" href="club_detail.php?id=<?= htmlspecialchars($club["id"]) ?>">
-            Voir détails
+            <?= t("view_details") ?>
           </a>
 
           <?php if (!isset($_SESSION["id"])) : ?>
 
             <a class="bouton bouton-secondaire" href="connexion.php?form=register">
-              S’inscrire
+              <?= t("sign_up") ?>
             </a>
 
           <?php elseif (
@@ -226,24 +227,24 @@ include "includes/header.php";
 
             <?php if (in_array((int) $club["id"], $mesMembreships, true)) : ?>
 
-              <span class="badge badge-actif">Vous êtes membre</span>
+              <span class="badge badge-actif"><?= t("you_are_member") ?></span>
 
             <?php elseif (in_array((int) $club["id"], $mesDemandes, true)) : ?>
 
-              <span class="badge badge-attente">Demande envoyée</span>
+              <span class="badge badge-attente"><?= t("request_sent") ?></span>
 
               <a
                 class="bouton bouton-secondaire"
                 href="annuler_demande.php?id=<?= htmlspecialchars($club["id"]) ?>"
-                onclick="return confirm('Voulez-vous vraiment annuler cette demande ?');"
+                onclick="return confirm('<?= t("cancel_request_confirm") ?>');"
               >
-                Annuler la demande
+                <?= t("cancel_request") ?>
               </a>
 
             <?php else : ?>
 
               <a class="bouton bouton-secondaire" href="demande_adhesion.php?id=<?= htmlspecialchars($club["id"]) ?>">
-                Demander adhésion
+                <?= t("request_membership") ?>
               </a>
 
             <?php endif; ?>
@@ -255,11 +256,11 @@ include "includes/header.php";
           ) : ?>
 
             <a class="bouton bouton-secondaire" href="update_club.php?id=<?= htmlspecialchars($club["id"]) ?>">
-              Modifier
+              <?= t("edit") ?>
             </a>
 
             <a class="bouton bouton-secondaire" href="gestion_club.php">
-              Gérer
+              <?= t("manage") ?>
             </a>
 
           <?php endif; ?>
