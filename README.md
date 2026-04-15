@@ -309,6 +309,34 @@ Les mots de passe sont stockés sous forme **hachée**.
 
 ---
 
+## Important — Mots de passe hachés dans le fichier SQL
+
+Lors de l’importation du fichier SQL dans phpMyAdmin, les mots de passe enregistrés dans la base sont déjà **hachés**.  
+Cela signifie qu’un mot de passe affiché comme valeur de test dans le projet ne pourra pas forcément être utilisé directement à la connexion, car la base stocke en réalité une version chiffrée du mot de passe.
+
+### Cas 1 — Utilisation des comptes déjà présents dans le fichier SQL
+
+Les comptes insérés dans le fichier SQL sont fournis uniquement comme **exemples de test**.
+
+Avant d’utiliser ces comptes, il est fortement conseillé de remplacer les adresses e-mail par vos **propres adresses e-mail** dans la base de données.
+
+En effet, si vous utilisez la fonctionnalité **Mot de passe oublié** avec une adresse e-mail d’exemple, le code de réinitialisation sera envoyé à cette adresse d’exemple et vous ne pourrez pas le recevoir.
+
+### Cas 2 — Création de nouveaux comptes
+
+C’est la méthode la plus recommandée.
+
+Étapes conseillées :
+
+1. créer un compte directement depuis la plateforme en tant qu’étudiant ;
+2. ouvrir phpMyAdmin et modifier manuellement le rôle de ce compte en **admin** si nécessaire ;
+3. se connecter avec ce compte administrateur sur la plateforme ;
+4. pour créer un responsable, créer d’abord son compte normalement depuis la plateforme, puis modifier son rôle depuis le compte administrateur.
+
+Cette méthode évite les problèmes liés aux mots de passe déjà hachés dans le fichier SQL, car le mot de passe est défini directement par l’utilisateur au moment de l’inscription.
+
+---
+
 ## Évolution fonctionnelle du projet
 
 ### Phase 1
