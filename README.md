@@ -36,7 +36,7 @@ Cette application a pour but de proposer un espace unique pour :
 ## Technologies utilisées
 
 - **PHP**
-- **MySQL**
+- **MySQL / MariaDB**
 - **HTML / CSS / JavaScript**
 - **PDO**
 - **PHPMailer**
@@ -73,10 +73,15 @@ Cette application a pour but de proposer un espace unique pour :
 
 ### Gestion des événements
 - création d’événements ;
+- modification d’événements ;
 - consultation des événements ;
 - calendrier ;
 - gestion du statut des événements ;
-- inscriptions aux événements via la base de données.
+- inscriptions aux événements via la base de données ;
+- notification des membres du club lors de l’ajout d’un événement ;
+- notification des membres du club lors de la modification d’un événement ;
+- notification des membres du club lors de l’annulation ou de la réactivation d’un événement ;
+- envoi d’un e-mail aux membres du club lors de l’ajout, de la modification, de l’annulation ou de la réactivation d’un événement.
 
 ### Profil utilisateur
 - pseudo ;
@@ -92,7 +97,10 @@ Cette application a pour but de proposer un espace unique pour :
 - suppression des messages par utilisateur ;
 - notifications ;
 - newsletter ;
-- désabonnement à la newsletter.
+- désabonnement à la newsletter ;
+- envoi direct des newsletters par e-mail aux abonnés ;
+- notification et e-mail à l’administrateur lorsqu’un utilisateur envoie un message ;
+- notification et e-mail à l’utilisateur lorsque l’administrateur répond.
 
 ### Internationalisation
 - version française ;
@@ -127,12 +135,14 @@ MyCampusUdm/
 ├── MyCampusUdmClubsC4
 ├── MyCampusUdmClubsC5
 └── MyCampusUdmClubsC6
+└── MyCampusUdmClubsC7
+
 ```
 
 La version la plus récente et la plus complète est :
 
 ```text
-MyCampusUdm/MyCampusUdmClubsC6
+MyCampusUdm/MyCampusUdmClubsC7
 ```
 
 C’est cette version qu’il faut lancer pour tester le projet final.
@@ -142,7 +152,7 @@ C’est cette version qu’il faut lancer pour tester le projet final.
 ## Structure principale de la version finale
 
 ```text
-MyCampusUdmClubsC6/
+MyCampusUdmClubsC7/
 ├── PHPMailer/
 ├── config/
 ├── css/
@@ -182,7 +192,7 @@ MyCampusUdmClubsC6/
 Le script SQL complet se trouve ici :
 
 ```text
-MyCampusUdm/MyCampusUdmClubsC6/mysqlrequette/mysql.sql
+MyCampusUdm/MyCampusUdmClubsC7/mysqlrequette/mysql.sql
 ```
 
 Nom de la base défini dans le projet :
@@ -251,14 +261,14 @@ mycampus_udm_v3
 - importer le fichier :
 
 ```text
-MyCampusUdm/MyCampusUdmClubsC6/mysqlrequette/mysql.sql
+MyCampusUdm/MyCampusUdmClubsC7/mysqlrequette/mysql.sql
 ```
 
 ### 4. Vérifier la connexion MySQL
 Fichier :
 
 ```text
-MyCampusUdm/MyCampusUdmClubsC6/config/mysql.php
+MyCampusUdm/MyCampusUdmClubsC7/config/mysql.php
 ```
 
 Valeurs actuelles :
@@ -273,7 +283,7 @@ Modifier ces valeurs si nécessaire selon votre environnement local.
 Fichier :
 
 ```text
-MyCampusUdm/MyCampusUdmClubsC6/mail_config.php
+MyCampusUdm/MyCampusUdmClubsC7/mail_config.php
 ```
 
 Il faut remplacer les identifiants par vos propres informations de test.
@@ -282,7 +292,7 @@ Il faut remplacer les identifiants par vos propres informations de test.
 Exemple d’URL locale :
 
 ```text
-http://localhost/MyCampusUdm/MyCampusUdmClubsC6/auth.php
+http://localhost/MyCampusUdm/MyCampusUdmClubsC7/auth.php
 ```
 
 ---
@@ -336,6 +346,12 @@ Les mots de passe sont stockés sous forme **hachée**.
 - nouveau mot de passe ;
 - traduction FR/EN.
 
+### Phase 7
+- envoi direct des newsletters par e-mail ;
+- notifications e-mail pour les messages privés ;
+- notifications e-mail pour les réponses de l’administrateur ;
+- notifications plateforme et e-mail pour les événements créés, modifiés, annulés ou réactivés.
+
 ---
 
 ## Fichiers de documentation interne déjà présents
@@ -385,5 +401,5 @@ Il ne contient pas seulement une version finale, mais aussi les différentes ét
 Pour tester le projet final, utiliser :
 
 ```text
-MyCampusUdm/MyCampusUdmClubsC6
+MyCampusUdm/MyCampusUdmClubsC7
 ```
