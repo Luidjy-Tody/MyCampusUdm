@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
+
+.page-auth {
+  min-height: 100vh;
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  color: #333;
+  font-family: "Poppins", serif;
+}
+
+.page-auth * {
+  box-sizing: border-box;
+}
+
+.page-auth .auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  padding: 20px;
+}
+
+.page-auth .container {
+  margin: 0 15px;
+}
+
+.page-auth .form-box {
+  width: 100%;
+  max-width: 450px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.page-auth .form-box.active {
+  display: block;
+}
+
+.page-auth h2 {
+  font-size: 34px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page-auth input,
+.page-auth select {
+  width: 100%;
+  padding: 12px;
+  background: #eee;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.page-auth button {
+  width: 100%;
+  padding: 12px;
+  background: #7494ec;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: 0.5s;
+}
+
+.page-auth button:hover {
+  background: #6884d3;
+}
+
+.page-auth p {
+  font-size: 14.5px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.page-auth p a {
+  color: #7494ec;
+  text-decoration: none;
+}
+
+.page-auth p a:hover {
+  text-decoration: underline;
+}
+
+.page-auth .error-message {
+  padding: 12px;
+  background: #f8d7da;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #a42834;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page-auth .success-message {
+  padding: 12px;
+  background: #d1e7dd;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #0f5132;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.page-auth .form-box form {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-auth .form-box input[type="text"] {
+  letter-spacing: 2px;
+}
+
+.page-auth .form-box button {
+  color: #fff;
+  font-weight: 500;
+}
+
+.page-auth .form-box {
+  margin: 0 auto;
+}
+
+.page-auth .auth-wrapper .container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
